@@ -2,9 +2,8 @@ version: "3.9"
 services:
   wol:
     build: wol/.
-    expose:
-      - "8888"
-    network_mode: "host"
+    ports:
+      - 8080:8080
     environment:
       - IP=${IP}
       - MAC=${MAC}
