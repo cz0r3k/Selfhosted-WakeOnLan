@@ -2,8 +2,7 @@ version: "3.9"
 services:
   wol:
     build: wol/.
-    ports:
-      - 8080:8080
+    network_mode: "host"
     environment:
       - IP=${IP}
       - MAC=${MAC}
