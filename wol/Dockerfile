@@ -1,9 +1,9 @@
-FROM golang:bullseye as builder
+FROM golang:alpine3.16 as builder
 WORKDIR /app
 COPY wol.go ./
 RUN go build wol.go
 
-FROM debian:bullseye
+FROM alpine:3.16
 COPY --from=builder /app/wol .
 ADD ./static/ ./static/
 EXPOSE 8080
