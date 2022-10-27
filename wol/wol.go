@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/hex"
 	"errors"
 	"log"
+	"net"
 	"net/http"
 	"os"
-	"os/exec"
+	"strings"
 )
 
 func main() {
@@ -22,11 +24,36 @@ func main() {
 func getWol(w http.ResponseWriter, r *http.Request) {
 	ip := os.Getenv("IP")
 	mac := os.Getenv("MAC")
-	cmd := exec.Command("wakeonlan", "-i", ip, mac)
-	stdout, err := cmd.Output()
-	log.Printf("%s\n", stdout)
+	sendMagicPacker(mac, ip)
+	w.WriteHeader(200)
+}
+func sendMagicPacker(mac string, ip string) {
+	mp := createMagicPacket(mac)
+
+	laddr, err := net.ResolveUDPAddr("udp", ":8089")
 	if err != nil {
 		log.Fatal(err)
 	}
-	w.WriteHeader(200)
+
+	raddr, err := net.ResolveUDPAddr("udp", ip+":9")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conn, err := net.DialUDP("udp", laddr, raddr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer conn.Close()
+	conn.Write(mp)
+}
+
+func createMagicPacket(mac string) []byte {
+	s := strings.Repeat("FF", 6) + strings.Repeat(strings.ReplaceAll(mac, ":", ""), 16)
+	data, err := hex.DecodeString(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return data
 }
