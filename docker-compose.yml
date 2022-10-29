@@ -6,6 +6,9 @@ services:
     image: cz0r3k/wake_on_lan
     network_mode: "host"
     environment:
-      - IP=${IP}
+      - WEB_PORT=${WEB_PORT}
+      - SENDING_PORT=${SENDING_PORT}
+      - RECEIVING_PORT=${RECEIVING_PORT}
+      - BROADCAST_IP=${BROADCAST_IP}
       - MAC=${MAC}
     restart: always
