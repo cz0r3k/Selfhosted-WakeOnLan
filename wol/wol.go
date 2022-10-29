@@ -50,10 +50,11 @@ type wol_arg struct {
 }
 
 func (arg wol_arg) getWol(w http.ResponseWriter, r *http.Request) {
-	sendMagicPacker(arg)
+	sendMagicPacket(arg)
 	w.WriteHeader(200)
 }
-func sendMagicPacker(arg wol_arg) {
+
+func sendMagicPacket(arg wol_arg) {
 	conn, err := net.DialUDP("udp", arg.local_addr, arg.remote_addr)
 	if err != nil {
 		log.Fatal(err)
