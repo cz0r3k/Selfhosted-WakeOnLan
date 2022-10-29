@@ -1,10 +1,11 @@
 version: "3.9"
 services:
   wol:
-    build: wol/.
+    build:
+      context: ./wol
+    image: cz0r3k/wake_on_lan
     network_mode: "host"
     environment:
       - IP=${IP}
       - MAC=${MAC}
     restart: always
-    
