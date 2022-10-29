@@ -5,3 +5,5 @@
 3. Copy *.env.copy* and rename on *.env*
 4. Set variable in *.env*
 5. Run `docker compose up -d`
+## Docker Hub
+https://hub.docker.com/repository/docker/cz0r3k/wake_on_lan
