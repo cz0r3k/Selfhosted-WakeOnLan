@@ -7,13 +7,4 @@ services:
       - IP=${IP}
       - MAC=${MAC}
     restart: always
-  tailscale:
-    image: tailscale/tailscale:stable
-    volumes:
-      - /var/lib:/var/lib
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - TS_AUTH_KEY=${KEY}
-    restart: always
-    network_mode: "host"
-    privileged: true
+    
